@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'answerbutton.dart';
 import 'data/questions.dart';
+import 'result.dart';
 
 class Questions extends StatefulWidget {
   const Questions({super.key, required this.onSelectAnswer});
@@ -22,7 +23,7 @@ class _QusetionsScreen extends State<Questions> {
 
   @override
   Widget build(context) {
-    final firstquestion = questions[CurrentQuestionIndex];
+    final currentQuestion = questions[CurrentQuestionIndex];
     return SizedBox(
       width: double.infinity,
       child: Container(
@@ -32,7 +33,7 @@ class _QusetionsScreen extends State<Questions> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              firstquestion.text,
+              currentQuestion.text,
               style: GoogleFonts.lato(
                   color: const Color.fromARGB(168, 255, 255, 255),
                   fontSize: 24,
@@ -41,11 +42,12 @@ class _QusetionsScreen extends State<Questions> {
             ),
             const SizedBox(height: 30),
             //spread operator
-            ...firstquestion.getSuffle().map((opp) {
+            currentQuestion.getSuffle().map((opp) {
               return Answerbutton(
-                answers: opp,
-                taptap: answerQuestion,
-              );
+                  answers: opp,
+                  taptap: () {
+                    answerQuestion(opp);
+                  });
             })
           ],
         ),
